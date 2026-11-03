@@ -1,0 +1,52 @@
+name: Build Windows application
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "windows_client/**"
+      - "installer.iss"
+      - ".github/workflows/build-windows.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: windows_client/requirements.txt
+
+      - name: Install dependencies
+        run: python -m pip install -r windows_client/requirements.txt
+
+      - name: Build EXE
+        run: >-
+          python -m PyInstaller --noconfirm --clean --onefile --windowed
+          --name RQAZ-DONATE windows_client/app.py
+
+      - name: Install Inno Setup
+        run: choco install innosetup --yes --no-progress
+
+      - name: Build installer
+        run: iscc installer.iss
+
+      - name: Upload Windows files
+        uses: actions/upload-artifact@v4
+        with:
+          name: RQAZ-DONATE-Windows
+          path: |
+            dist/RQAZ-DONATE.exe
+            installer-output/RQAZ-DONATE-Setup.exe
+          if-no-files-found: error
+          retention-days: 30

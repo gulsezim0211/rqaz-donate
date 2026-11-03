@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="ru"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>RQAZ-DONATE — донаты для стримов</title>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;800&family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#09050f;--s1:#130b20;--s2:#1c1030;--line:#3a2158;--tx:#f4eeff;--mu:#a592c4;--pink:#ff2bd6;--cy:#22f0ff;--vi:#8b5cff;--lime:#b6ff3b;--bad:#ff5d7a;--glow:.55;color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#f6f0ff;--s1:#fff;--s2:#efe5ff;--line:#d4bff5;--tx:#1a0b33;--mu:#6b5890;--pink:#d4109f;--cy:#0a8aa0;--vi:#6a3de0;--lime:#3d8a00;--bad:#d3314f;--glow:0;color-scheme:light}}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:70px}
+body{margin:0;background:var(--bg);color:var(--tx);font:400 15px/1.55 Manrope,system-ui,sans-serif;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;z-index:-1;background:radial-gradient(50% 40% at 15% 0,color-mix(in srgb,var(--pink) 22%,transparent),transparent),radial-gradient(45% 40% at 90% 10%,color-mix(in srgb,var(--cy) 18%,transparent),transparent),linear-gradient(var(--line) 1px,transparent 1px) 0 0/48px 48px,linear-gradient(90deg,var(--line) 1px,transparent 1px) 0 0/48px 48px;opacity:.9;-webkit-mask:linear-gradient(#000 40%,transparent);mask:linear-gradient(#000 40%,transparent)}
+h1,h2,h3,.brand{font-family:Unbounded,Manrope,system-ui,sans-serif;margin:0;letter-spacing:-.02em}
+a{color:inherit;text-decoration:none}button{font:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--cy);outline-offset:2px}
+.view{display:none;min-height:100vh}.view.on{display:block}
+.neon{background:linear-gradient(90deg,var(--pink),var(--vi) 50%,var(--cy));-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 calc(18px*var(--glow)) color-mix(in srgb,var(--pink) 60%,transparent))}
+.btn{border:0;border-radius:12px;padding:12px 20px;font-weight:800;background:linear-gradient(90deg,var(--pink),var(--vi));color:#fff;display:inline-flex;gap:8px;align-items:center;box-shadow:0 0 calc(26px*var(--glow)) color-mix(in srgb,var(--pink) 55%,transparent);transition:transform .15s}
+.btn:hover{transform:translateY(-2px)}
+.btn.cy{background:linear-gradient(90deg,var(--cy),var(--vi));color:#06141a;box-shadow:0 0 calc(26px*var(--glow)) color-mix(in srgb,var(--cy) 50%,transparent)}
+.btn.ghost{background:transparent;border:1px solid var(--line);box-shadow:none;color:var(--tx)}
+.btn.ghost:hover{border-color:var(--cy)}
+.brand{font-weight:800;font-size:17px;white-space:nowrap;display:flex;align-items:center;gap:10px}
+.logo{width:38px;height:38px;border-radius:0;background:none;box-shadow:none;display:block;flex:none;filter:drop-shadow(0 0 calc(9px*var(--glow)) color-mix(in srgb,var(--pink) 70%,transparent))}.logo svg{width:100%;height:100%;display:block}
+.nav{position:sticky;top:0;z-index:5;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px clamp(16px,5vw,64px);backdrop-filter:blur(14px);background:color-mix(in srgb,var(--bg) 70%,transparent);border-bottom:1px solid var(--line)}
+.nav nav{display:flex;gap:24px;color:var(--mu);font-weight:600}.nav nav a:hover{color:var(--cy)}
+.row{display:flex;gap:12px;flex-wrap:wrap}
+.wrap{padding:0 clamp(16px,5vw,64px);max-width:1400px;margin:0 auto}
+.hero{display:grid;grid-template-columns:1.1fr 1fr;gap:48px;align-items:center;padding:clamp(36px,6vw,84px) clamp(16px,5vw,64px);max-width:1400px;margin:0 auto}
+.pill{display:inline-flex;gap:8px;align-items:center;border:1px solid var(--line);background:var(--s1);border-radius:99px;padding:6px 14px;font-weight:700;font-size:13px;color:var(--cy)}
+.pill i{width:8px;height:8px;border-radius:50%;background:var(--lime);box-shadow:0 0 10px var(--lime);animation:bl 1.4s infinite}
+@keyframes bl{50%{opacity:.3}}
+.hero h1{font-size:clamp(34px,5.4vw,68px);line-height:1.04;margin:20px 0}
+.hero p{color:var(--mu);font-size:18px;max-width:48ch;margin:0 0 28px}
+.proof{display:flex;gap:28px;margin-top:34px;flex-wrap:wrap}.proof b{font:800 26px Unbounded;display:block}.proof span{color:var(--mu);font-size:13px}
+.stage{position:relative;aspect-ratio:9/13;max-width:400px;margin-inline:auto;width:100%;border-radius:26px;border:2px solid var(--pink);background:linear-gradient(160deg,#2a0e55,#0c1d4a 60%,#4a0e45);overflow:hidden;box-shadow:0 0 calc(60px*var(--glow)) color-mix(in srgb,var(--pink) 45%,transparent),inset 0 0 40px #0008}
+.live{position:absolute;top:14px;left:14px;background:var(--bad);color:#fff;font-weight:800;font-size:12px;padding:3px 10px;border-radius:99px}
+.viewers{position:absolute;top:14px;right:14px;background:#0007;font-size:12px;padding:3px 10px;border-radius:99px;color:#fff}
+.alert{position:absolute;left:14px;right:14px;top:56px;background:#0b0615e6;border:1px solid var(--cy);border-radius:16px;padding:14px;transform:translateY(-150%) scale(.9);opacity:0;transition:.5s cubic-bezier(.2,1.1,.3,1.2);box-shadow:0 0 30px color-mix(in srgb,var(--cy) 50%,transparent);color:#fff}
+.alert.show{transform:none;opacity:1}.alert b{font:800 24px Unbounded;color:var(--lime);text-shadow:0 0 14px var(--lime)}.alert small{display:block;color:#cbb8ee}
+.chat{position:absolute;left:14px;bottom:86px;display:grid;gap:6px;font-size:13px;color:#fff}.chat span{background:#0007;border-radius:99px;padding:4px 12px;width:fit-content}.chat em{font-style:normal;color:var(--cy);font-weight:800}
+.goal{position:absolute;left:14px;right:14px;bottom:14px;background:#000a;border-radius:14px;padding:10px 12px;font-size:13px;color:#fff}
+.bar{height:9px;border-radius:9px;background:#fff2;margin-top:6px;overflow:hidden}.bar i{display:block;height:100%;width:62%;background:linear-gradient(90deg,var(--pink),var(--cy));box-shadow:0 0 12px var(--pink);transition:width .6s}
+.marq{overflow:hidden;border-block:1px solid var(--line);background:var(--s1);padding:14px 0;white-space:nowrap}
+.marq div{display:inline-block;animation:mq 28s linear infinite;font:800 15px Unbounded;color:var(--mu)}
+.marq span{margin:0 28px}.marq span:nth-child(3n){color:var(--cy)}.marq span:nth-child(3n+1){color:var(--pink)}
+@keyframes mq{to{transform:translateX(-50%)}}
+.sec{padding:clamp(40px,6vw,80px) clamp(16px,5vw,64px);max-width:1400px;margin:0 auto}
+.sec>h2{font-size:clamp(26px,3.6vw,42px);margin-bottom:10px}.sec>p.lead{color:var(--mu);max-width:60ch;margin:0 0 34px;font-size:17px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.card{background:linear-gradient(160deg,var(--s2),var(--s1));border:1px solid var(--line);border-radius:18px;padding:22px;transition:.2s}
+.card:hover{border-color:var(--pink);box-shadow:0 0 calc(30px*var(--glow)) color-mix(in srgb,var(--pink) 30%,transparent)}
+.card h3{font-size:16px;margin:12px 0 8px}.card p{margin:0;color:var(--mu)}
+.ico{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;font-size:22px;background:color-mix(in srgb,var(--cy) 14%,transparent);border:1px solid var(--cy)}
+.card:nth-child(2n) .ico{background:color-mix(in srgb,var(--pink) 14%,transparent);border-color:var(--pink)}
+.card:nth-child(3n) .ico{background:color-mix(in srgb,var(--lime) 14%,transparent);border-color:var(--lime)}
+.steps3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;counter-reset:s}
+.steps3 .card{position:relative;padding-top:56px}.steps3 .card::before{counter-increment:s;content:counter(s);position:absolute;top:14px;left:20px;font:800 34px Unbounded;color:transparent;-webkit-text-stroke:1.5px var(--cy)}
+.wid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.wid div{border:1px dashed var(--line);border-radius:14px;padding:16px;text-align:center;font-weight:700;background:var(--s1)}.wid div b{display:block;font-size:26px;margin-bottom:4px}
+.price{display:grid;grid-template-columns:1fr 1fr;gap:20px;max-width:860px}
+.plan{border-radius:22px;padding:28px;background:var(--s1);border:1px solid var(--line);position:relative}
+.plan.pro{border:2px solid var(--pink);background:linear-gradient(160deg,color-mix(in srgb,var(--pink) 16%,var(--s1)),var(--s1));box-shadow:0 0 calc(50px*var(--glow)) color-mix(in srgb,var(--pink) 35%,transparent)}
+.plan .hot{position:absolute;top:-13px;right:20px;background:var(--lime);color:#112600;font-weight:800;font-size:12px;padding:4px 12px;border-radius:99px}
+.plan .p{font:800 38px Unbounded;margin:10px 0}.plan .p small{font:600 14px Manrope;color:var(--mu)}
+.plan ul{list-style:none;padding:0;margin:16px 0 22px;display:grid;gap:9px}.plan li::before{content:"✓";color:var(--lime);font-weight:800;margin-right:10px}.plan li.no{color:var(--mu)}.plan li.no::before{content:"–";color:var(--mu)}
+details{background:var(--s1);border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin-bottom:10px;max-width:820px}
+summary{font-weight:800;cursor:pointer}details p{color:var(--mu);margin:10px 0 0}
+.cta{margin:20px auto 50px;border-radius:26px;padding:clamp(28px,5vw,56px);text-align:center;border:1px solid var(--cy);background:radial-gradient(60% 120% at 50% 0,color-mix(in srgb,var(--vi) 35%,transparent),var(--s1));max-width:1400px}
+.cta h2{font-size:clamp(24px,3.6vw,40px);margin-bottom:12px}.cta p{color:var(--mu);margin:0 auto 24px;max-width:50ch}
+footer{padding:28px clamp(16px,5vw,64px);border-top:1px solid var(--line);color:var(--mu);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}footer b{color:var(--cy)}
+.auth{display:grid;place-items:center;padding:24px;min-height:100vh}
+.box{width:100%;max-width:410px;background:color-mix(in srgb,var(--s1) 90%,transparent);border:1px solid var(--pink);border-radius:22px;padding:28px;box-shadow:0 0 calc(50px*var(--glow)) color-mix(in srgb,var(--pink) 30%,transparent);backdrop-filter:blur(10px)}
+.tabs{display:grid;grid-template-columns:1fr 1fr;background:var(--s2);border-radius:12px;padding:4px;margin:20px 0}
+.tabs button{border:0;background:transparent;color:var(--mu);padding:10px;border-radius:9px;font-weight:800}.tabs button.on{background:var(--bg);color:var(--cy)}
+label{display:block;font-weight:600;font-size:13px;color:var(--mu);margin:14px 0 6px}
+input{width:100%;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:12px;color:var(--tx);font:inherit}input:focus{border-color:var(--cy);outline:0;box-shadow:0 0 14px color-mix(in srgb,var(--cy) 40%,transparent)}
+.err{color:var(--bad);font-size:13px;min-height:20px;margin-top:8px}
+.app{display:grid;grid-template-columns:260px 1fr;min-height:100vh}
+.side{background:var(--s1);border-right:1px solid var(--line);padding:18px 14px;position:sticky;top:0;height:100vh;overflow:auto;display:flex;flex-direction:column;gap:3px}
+.me{display:flex;gap:10px;align-items:center;background:var(--s2);border:1px solid var(--line);border-radius:14px;padding:10px;margin:14px 0 6px}
+.ava{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,var(--pink),var(--cy));display:grid;place-items:center;font-weight:800;color:#fff;box-shadow:0 0 14px var(--pink)}
+.me small{color:var(--mu);display:block;line-height:1.3}
+.badge{font-size:10px;font-weight:800;border-radius:6px;padding:1px 7px;background:var(--line);color:var(--tx)}.badge.pro{background:var(--pink);color:#fff}
+.grp{font-weight:800;font-size:12px;color:var(--cy);margin:14px 8px 4px}
+.side a{padding:9px 12px;border-radius:10px;color:var(--mu);font-weight:600;display:flex;justify-content:space-between;cursor:pointer}
+.side a:hover{background:var(--s2);color:var(--tx)}.side a.on{background:linear-gradient(90deg,color-mix(in srgb,var(--pink) 25%,transparent),transparent);color:var(--tx);box-shadow:inset 3px 0 var(--pink)}
+.tag{font-size:10px;background:var(--lime);color:#112600;border-radius:6px;padding:1px 6px;font-weight:800;align-self:center}
+.status{margin-top:auto;font-size:12px;border:1px solid var(--line);border-radius:10px;padding:9px 12px;color:var(--bad)}.status.ok{color:var(--lime);border-color:var(--lime)}
+.main{padding:22px clamp(14px,3vw,36px);min-width:0}
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:20px}.top h2{font-size:22px}
+.panel{display:none}.panel.on{display:block}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
+.step{border:1px solid var(--line);background:var(--s1);border-radius:14px;padding:14px;font-weight:600;font-size:13px}.step.cur{border-color:var(--pink);box-shadow:0 0 18px color-mix(in srgb,var(--pink) 30%,transparent)}.step.done{border-color:var(--lime)}
+.step em{font-style:normal;display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--s2);margin-right:8px;font-size:12px}.step.done em{background:var(--lime);color:#112600}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
+.stat span{color:var(--mu);font-size:13px}.stat b{display:block;font:800 24px Unbounded;margin-top:4px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+.chart svg{width:100%;height:190px;display:block}
+.list{display:grid;gap:8px;margin-top:10px}.list div{display:flex;justify-content:space-between;background:var(--s2);border-radius:10px;padding:9px 12px}.list b{color:var(--lime)}
+.empty{color:var(--mu);padding:18px 0;text-align:center}
+.menu-btn{display:none}
+.guide{max-width:820px;margin:0 auto;padding:32px 20px 64px}
+.g{display:grid;grid-template-columns:46px 1fr;gap:16px;margin-bottom:16px}
+.g .n{width:46px;height:46px;border-radius:14px;background:linear-gradient(135deg,var(--pink),var(--vi));color:#fff;display:grid;place-items:center;font:800 18px Unbounded}
+.g ol,.g ul{margin:6px 0 0;padding-left:20px;color:var(--mu)}
+.crit{border:1px solid var(--bad);background:color-mix(in srgb,var(--bad) 10%,var(--s1));border-radius:16px;padding:20px;margin-top:28px}.crit h3{color:var(--bad);margin-bottom:10px}.crit p{margin:6px 0}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translate(-50%,40px);opacity:0;background:var(--s2);border:1px solid var(--cy);padding:10px 18px;border-radius:12px;transition:.3s;z-index:9;pointer-events:none}.toast.on{transform:translate(-50%,0);opacity:1}
+@media (max-width:900px){.hero{grid-template-columns:1fr}.grid3,.steps3,.price,.two{grid-template-columns:1fr}.wid,.stats,.steps{grid-template-columns:1fr 1fr}
+.app{grid-template-columns:1fr}.side{position:fixed;inset:0 20% 0 0;z-index:8;transform:translateX(-105%);transition:.3s;height:100%;padding-top:calc(18px + env(safe-area-inset-top,0px))}.side.open{transform:none}.menu-btn{display:inline-flex}.nav nav{display:none}}
+@media (max-width:560px){.stats,.steps{grid-template-columns:1fr}.nav .ghost{display:none}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+.sty{--a:#ff2bd6;--b:#22f0ff;--pb:#14072a}
+.sty[data-st=arcade]{--a:#b6ff3b;--b:#ffd23b;--pb:#10140a}.sty[data-st=sakura]{--a:#ff7eb6;--b:#ffd1e6;--pb:#2a1020}.sty[data-st=ice]{--a:#4cc9ff;--b:#e8f8ff;--pb:#07182b}
+.pv{background:var(--pb);border:2px solid var(--a);box-shadow:0 0 24px color-mix(in srgb,var(--a) 40%,transparent);border-radius:16px;padding:14px;color:#fff}
+.sty[data-st=arcade] .pv{border-radius:2px;font-family:"Courier New",monospace;border-style:dashed}
+.sty[data-st=sakura] .pv{border-radius:26px}
+.pv h4{margin:0 0 10px;font:800 14px Unbounded,sans-serif;color:var(--a);text-shadow:0 0 10px var(--a);word-break:break-word}
+.pv div{display:flex;justify-content:space-between;padding:5px 0;border-top:1px solid color-mix(in srgb,var(--a) 30%,transparent);font-size:13px}.pv div b{color:var(--b)}
+.styles{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.sbtn{background:none;border:2px solid transparent;border-radius:20px;padding:6px;text-align:left;color:var(--tx)}.sbtn.on{border-color:var(--cy)}.sbtn p{margin:8px 4px 2px;font-weight:800}
+.cases{display:grid;grid-template-columns:1.2fr 1fr;gap:20px;align-items:center}
+.chips{display:flex;gap:10px;flex-wrap:wrap;margin:16px 0}.chips span{border:1px solid var(--pink);border-radius:99px;padding:6px 16px;font:800 14px Unbounded;box-shadow:0 0 14px color-mix(in srgb,var(--pink) 25%,transparent)}
+.gifs{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}.gifs div{background:var(--s1);border:1px solid var(--line);border-radius:16px;padding:16px 8px;text-align:center;font-weight:800}.gifs div b{display:block;font-size:34px}.gifs div.own{border-style:dashed;color:var(--mu)}
+.tit{width:100%;max-width:380px}
+.copy{display:flex;gap:8px}.copy input{font-size:13px}
+.q{position:absolute;right:14px;bottom:14px;left:14px;background:#000a;border-radius:14px;padding:10px 12px;font-size:12px;color:#fff}.q b{color:var(--cy)}.q div{display:flex;justify-content:space-between;gap:8px;padding:2px 0}
+.wcard{margin-bottom:12px}.wcard h3{display:flex;gap:10px;align-items:center;margin:0 0 6px;font-size:15px}.wcard.hl{border-color:var(--cy);box-shadow:0 0 24px color-mix(in srgb,var(--cy) 35%,transparent)}
+.pr{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:10px 0}.pr input{width:96px;padding:8px}
+.lock{color:var(--mu);font-size:13px}
+@media (max-width:900px){.styles{grid-template-columns:1fr 1fr}.cases{grid-template-columns:1fr}.gifs{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:560px){.styles{grid-template-columns:1fr}}
+.lockc{border-style:dashed}.list button{padding:6px 12px}.lock a{color:var(--cy)}
+</style></head><body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff2bd6"/><stop offset=".5" stop-color="#8b5cff"/><stop offset="1" stop-color="#22f0ff"/></linearGradient></defs></svg>
+
+<section class="view" id="v-home">
+<header class="nav"><a class="brand" href="#home"><span class="logo" aria-hidden="true"><svg viewBox="0 0 40 40"><rect x="1.5" y="1.5" width="37" height="37" rx="11" fill="#12081f" stroke="url(#lg)" stroke-width="2"/><text x="20" y="26" text-anchor="middle" font-family="Unbounded,sans-serif" font-weight="800" font-size="16" letter-spacing="-1" fill="url(#lg)">RQ</text><circle cx="33" cy="7" r="2.6" fill="#b6ff3b"/></svg></span>RQAZ-DONATE</a>
+<nav><a href="#features">Возможности</a><a href="#music">Музыка и гифки</a><a href="#styles">Стили</a><a href="#connect">Подключение</a><a href="#price">Тарифы</a><a href="https://t.me/RQaz_Donate_pom" target="_blank" rel="noopener">Помощь</a></nav>
+<div class="row"><a class="btn ghost" href="#login">Войти</a><a class="btn" href="#login-reg">Начать бесплатно</a></div></header>
+
+<div class="hero"><div>
+<span class="pill"><i></i>Прямо на Kaspi · для TikTok, OBS, Streamlabs</span>
+<h1><span class="neon">Донаты, которые слышно</span></h1>
+<p>Всё для яркого эфира прямо на Kaspi: голосовые донаты, уровни зрителей, медиа-очередь, музыка по заказу и гифки. Зритель платит — эфир оживает.</p>
+<div class="row"><a class="btn" href="#login-reg">Начать бесплатно</a><a class="btn cy" href="#price">Купить PRO — 3 000 ₸</a></div>
+<div class="proof"><div><b class="neon">100 ₸</b><span>минимальный заказ</span></div><div><b class="neon">5 мин</b><span>на подключение</span></div><div><b class="neon">4 стиля</b><span>готовых оформления</span></div></div>
+</div>
+<div class="stage" aria-label="Пример стрима с алертами"><span class="live">LIVE</span><span class="viewers">👁 1 284</span>
+<div class="alert" id="al"><small id="alKind">🎙 Голосовой донат</small><b id="alSum">1 500 ₸</b><small id="alMsg">Айгерим: спасибо за стрим!</small></div>
+<div class="q"><b>Медиа-очередь</b><div id="qList"></div></div></div></div>
+<div class="marq"><div id="mq"></div></div>
+
+<div class="sec" id="features"><h2>Всё для яркого эфира <span class="neon">прямо на Kaspi</span></h2><p class="lead">Зритель переводит деньги в Kaspi — а на вашем стриме появляется звук, картинка или трек.</p>
+<div class="grid3">
+<div class="card"><div class="ico">🎙</div><h3>Голосовые донаты</h3><p>Зритель отправляет озвученное сообщение — оно звучит в эфире вместе с алертом.</p></div>
+<div class="card"><div class="ico">🎵</div><h3>Музыка по заказу</h3><p>Заказ трека от 100, 300 или 500 ₸ — цену выбираете сами. Ссылка из YouTube летит в очередь.</p></div>
+<div class="card"><div class="ico">🖼</div><h3>Гифки за донат</h3><p>Готовые гифки от 100 до 500 ₸. В PRO загружайте свои.</p></div>
+<div class="card"><div class="ico">⭐</div><h3>Уровни зрителей</h3><p>Чем больше донатов, тем выше уровень. Зрители соревнуются за звание.</p></div>
+<div class="card"><div class="ico">📺</div><h3>Медиа-очередь</h3><p>Музыка, гифки и голоса встают в одну очередь и идут в эфир по порядку.</p></div>
+<div class="card"><div class="ico">🏆</div><h3>Топ донатов</h3><p>Показывайте лучших зрителей с никнеймами. Название блока меняете на своё.</p></div>
+</div></div>
+
+<div class="sec" id="music"><h2>Заказ музыки <span class="neon">за 3 шага</span></h2><p class="lead">Стример сам ставит цену заказа. Зрителю нужен только Kaspi и ссылка на трек.</p>
+<div class="chips"><span>100 ₸</span><span>300 ₸</span><span>500 ₸</span><span>ваша цена</span></div>
+<div class="steps3">
+<div class="card"><h3>Переведите на Kaspi</h3><p>Например, 300 ₸ на номер стримера.</p></div>
+<div class="card"><h3>Вставьте ссылку</h3><p>В комментарий к переводу в Kaspi вставьте ссылку на музыку из YouTube.</p></div>
+<div class="card"><h3>Слушайте в эфире</h3><p>Трек попадёт в медиа-очередь и заиграет на стриме.</p></div></div>
+<h2 style="margin:44px 0 18px;font-size:clamp(22px,3vw,32px)">Гифки от <span class="neon">100 до 500 ₸</span></h2>
+<div class="gifs"><div><b>🔥</b>100 ₸</div><div><b>🎉</b>200 ₸</div><div><b>💎</b>300 ₸</div><div><b>🚀</b>500 ₸</div><div class="own"><b>＋</b>Своя гифка · PRO</div></div></div>
+
+<div class="sec" id="styles"><h2>Твой стрим — <span class="neon">твой стиль</span></h2><p class="lead">Выберите один из четырёх готовых стилей после входа. В PRO настраивайте цвета, тексты и гифки под себя.</p>
+<div class="styles" id="hStyles"></div>
+<div class="cases" style="margin-top:36px"><div><h3 style="font-size:22px;margin-bottom:10px">Назовите блок по-своему</h3><p style="color:var(--mu);margin:0 0 14px">Вместо «ТОП ДОНАТЫ» — «ЗАЛ СЛАВЫ», «ЩЕДРЫЕ ЛЕГЕНДЫ» или любое слово. Попробуйте:</p>
+<label for="tt">Название блока</label><input class="tit" id="tt" value="ТОП ДОНАТЫ" maxlength="24"></div>
+<div class="sty" data-st="neon"><div class="pv"><h4 id="ttOut">ТОП ДОНАТЫ</h4><div><span>1. Ерлан</span><b>10 000 ₸</b></div><div><span>2. Данияр</span><b>5 000 ₸</b></div><div><span>3. Айгерим</span><b>1 500 ₸</b></div></div></div></div></div>
+
+<div class="sec" id="connect"><h2>Подключение — <span class="neon">скопировал и вставил</span></h2><p class="lead">Виджет — это ссылка. Вставьте её в программу для стрима как Browser-источник.</p>
+<div class="steps3">
+<div class="card"><h3>Скопируйте ссылку</h3><p>В кабинете откройте нужный виджет и нажмите «Копировать».</p></div>
+<div class="card"><h3>Вставьте в стрим</h3><p>TikTok LIVE Studio, OBS, Streamlabs или Лапс: добавьте источник Browser и вставьте ссылку.</p></div>
+<div class="card"><h3>Запустите программу</h3><p>Уведомления Kaspi приходят на Windows через «Связь с телефоном» — программа передаёт их в виджеты.</p></div></div>
+<p style="margin-top:20px"><a class="btn cy" href="#guide">Подробная инструкция</a></p></div>
+
+<div class="sec" id="price"><h2>Посмотри бесплатно, <span class="neon">включи с PRO</span></h2><p class="lead">В FREE видно, как работают виджеты. PRO даёт ссылки для эфира и полную настройку.</p>
+<div class="price">
+<div class="plan"><h3>FREE</h3><div class="p">0 ₸</div>
+<ul><li>Кабинет и статистика донатов</li><li>Превью всех виджетов</li><li>4 стиля: выбор и просмотр</li><li class="no">Ссылки на виджеты для стрима</li><li class="no">Свои цвета, названия и гифки</li></ul><a class="btn ghost" href="#login-reg">Начать бесплатно</a></div>
+<div class="plan pro"><span class="hot">Выбор стримеров</span><h3 class="neon">PRO</h3><div class="p">3 000 ₸ <small>/ месяц</small></div>
+<ul><li>Всё из FREE</li><li>Все виджеты со ссылками: алерты, музыка, гифки, голосовые, уровни, медиа-очередь, топ</li><li>Свои цены на заказы</li><li>Свои цвета и название «ТОП ДОНАТЫ»</li><li>Свои гифки</li><li>Приоритетная поддержка</li></ul><a class="btn" href="https://t.me/RQaz_Donate" target="_blank" rel="noopener">Купить PRO в Telegram</a></div></div>
+<h2 style="margin:50px 0 16px;font-size:26px">Как купить <span class="neon">PRO</span></h2><div class="steps3"><div class="card"><h3>Напишите в Telegram</h3><p>Аккаунт <b>@RQaz_Donate</b>.</p></div><div class="card"><h3>Отправьте чек и ID</h3><p>Чек об оплате 3 000 ₸ и ваш ID из кабинета.</p></div><div class="card"><h3>Получите PRO</h3><p>Мы подключим PRO к вашему ID, и настройки под себя откроются в кабинете.</p></div></div><p style="margin-top:16px"><a class="btn cy" href="https://t.me/RQaz_Donate" target="_blank" rel="noopener">Написать @RQaz_Donate</a></p><h2 style="margin:50px 0 16px;font-size:26px">Вопросы</h2>
+<details><summary>Нужна ли программа или хватит сайта?</summary><p>Программа нужна. Платежи Kaspi приходят уведомлениями на телефон, сайт сам их не видит. Программа на Windows читает их через «Связь с телефоном» и отправляет суммы в облако сайта. Все настройки и виджеты при этом живут на сайте.</p></details><details><summary>Как купить PRO?</summary><p>Напишите в Telegram @RQaz_Donate, отправьте чек и ваш ID. Мы подключим PRO к вашему аккаунту по ID.</p></details><details><summary>Где получить помощь?</summary><p>Напишите в Telegram @RQaz_Donate_pom.</p></details><details><summary>Как зритель заказывает музыку?</summary><p>Переводит сумму заказа через Kaspi и вставляет в комментарий ссылку на YouTube. Трек появится в медиа-очереди.</p></details>
+<details><summary>Работает ли с TikTok LIVE Studio?</summary><p>Да. Виджет добавляется как Browser-источник, как и в OBS и Streamlabs.</p></details>
+<details><summary>Можно ли закрывать «Связь с телефоном»?</summary><p>Нет. Держите приложение запущенным: в свёрнутом режиме свёрнутым, в открытом — развёрнутым.</p></details></div>
+
+<div class="cta"><h2>Сделайте эфир <span class="neon">громче</span></h2><p>Зарегистрируйтесь, выберите стиль, скопируйте ссылку — и первый донат уже в эфире.</p><div class="row" style="justify-content:center"><a class="btn" href="#login-reg">Начать бесплатно</a><a class="btn ghost" href="https://t.me/RQaz_Donate_pom" target="_blank" rel="noopener">Помощь в Telegram</a></div></div>
+<footer><span><b>RQAZ-DONATE</b> © 2026</span><span>Разработчики: <b>RONIN</b> &amp; <b>QSEZIIM</b></span></footer>
+</section>
+
+<section class="view" id="v-login"><div class="auth"><div class="box">
+<a class="brand" href="#home"><span class="logo" aria-hidden="true"><svg viewBox="0 0 40 40"><rect x="1.5" y="1.5" width="37" height="37" rx="11" fill="#12081f" stroke="url(#lg)" stroke-width="2"/><text x="20" y="26" text-anchor="middle" font-family="Unbounded,sans-serif" font-weight="800" font-size="16" letter-spacing="-1" fill="url(#lg)">RQ</text><circle cx="33" cy="7" r="2.6" fill="#b6ff3b"/></svg></span>RQAZ-DONATE</a>
+<div class="tabs"><button id="tL" class="on">Вход</button><button id="tR">Регистрация</button></div>
+<form id="authForm" novalidate>
+<div id="nameWrap" hidden><label for="fn">Никнейм</label><input id="fn" autocomplete="nickname" placeholder="gggg"></div>
+<div id="idWrap" hidden><label for="fid">ID пользователя</label><input id="fid" autocomplete="off" placeholder="123456" maxlength="12"></div>
+<div id="emailWrap"><label for="fe">Эл. почта</label><input id="fe" type="email" autocomplete="email" placeholder="you@mail.kz"></div>
+<label for="fp">Пароль</label>
+<input id="fp" type="password" autocomplete="current-password" placeholder="Минимум 6 символов">
+<div class="err" id="fErr" role="alert"></div>
+<button class="btn" id="fBtn" style="width:100%;justify-content:center;margin-top:8px" type="submit">Войти</button></form>
+</div></div></section>
+
+<section class="view" id="v-cabinet"><div class="app">
+<aside class="side" id="side">
+<a class="brand" href="#home" style="padding:4px 8px"><span class="logo" aria-hidden="true"><svg viewBox="0 0 40 40"><rect x="1.5" y="1.5" width="37" height="37" rx="11" fill="#12081f" stroke="url(#lg)" stroke-width="2"/><text x="20" y="26" text-anchor="middle" font-family="Unbounded,sans-serif" font-weight="800" font-size="16" letter-spacing="-1" fill="url(#lg)">RQ</text><circle cx="33" cy="7" r="2.6" fill="#b6ff3b"/></svg></span>RQAZ-DONATE</a>
+<div class="me"><div class="ava" id="ava">G</div><div><b id="meName">gggg</b> <span class="badge" id="meBadge">FREE</span><small>ID <span id="meId">—</span></small></div></div>
+<div class="grp">Мой эфир</div>
+<a class="on" data-p="ov">Обзор</a><a data-p="style">Мой стиль</a><a data-p="wid">Все виджеты</a>
+<div class="grp">Заказы зрителей</div>
+<a data-w="music">🎵 Музыка</a><a data-w="gifs">🖼 Гифки</a><a data-w="voice">🎙 Голосовые</a><a data-w="queue">📺 Медиа-очередь</a>
+<div class="grp">Рейтинги</div>
+<a data-w="top">🏆 Топ донатов</a><a data-w="levels">⭐ Уровни зрителей</a>
+<div class="grp">Аккаунт</div>
+<a data-p="tar">Тариф PRO <span class="tag">3000 ₸</span></a><a href="#guide">Инструкция</a><a href="https://t.me/RQaz_Donate_pom" target="_blank" rel="noopener">Помощь</a><a href="#home" id="logout">Выйти</a>
+<div class="status" id="status">● Программа не активна</div></aside>
+<main class="main">
+<div class="top"><div class="row" style="align-items:center"><button class="btn ghost menu-btn" id="menuBtn" aria-label="Меню">☰</button><h2 id="pTitle">Обзор</h2></div>
+<div class="row"><button class="btn cy" id="dl">Скачать для Windows</button><button class="btn" id="testBtn">Тестовый донат</button></div></div>
+
+<div class="panel on" id="p-ov">
+<div class="steps" id="steps"><div class="step cur"><em>1</em>Скачайте и запустите программу</div><div class="step"><em>2</em>Выберите стиль и скопируйте виджет</div><div class="step"><em>3</em>Сделайте тестовый донат</div><div class="step"><em>4</em>Получите первый донат</div></div>
+<div class="stats"><div class="card stat"><span>Сегодня</span><b id="sToday">0 ₸</b></div><div class="card stat"><span>Неделя</span><b id="sWeek">0 ₸</b></div><div class="card stat"><span>Месяц</span><b id="sMonth">0 ₸</b></div><div class="card stat"><span>Всего донатов</span><b id="sCnt">0</b></div></div>
+<div class="card chart"><h3 style="margin:0 0 8px">Доход за сегодня</h3><svg id="chart" viewBox="0 0 600 190" preserveAspectRatio="none"></svg></div>
+<div class="two"><div class="card"><h3 style="margin:0">Последние заказы</h3><div id="last" class="list"></div></div><div class="card"><h3 style="margin:0">Топ донатов</h3><div id="top" class="list"></div></div></div></div>
+
+<div class="panel" id="p-style"><p style="color:var(--mu);margin-top:0">Выберите оформление виджетов. В PRO можно менять цвета и тексты.</p>
+<div class="styles" id="cStyles"></div>
+<div class="cases" style="margin-top:26px"><div class="card"><h3 style="margin:0 0 10px">Настройка под себя <span class="badge pro">PRO</span></h3>
+<label for="cTitle">Название блока «Топ донатов»</label><input id="cTitle" value="ТОП ДОНАТЫ" maxlength="24">
+<p class="lock" id="lockNote">Редактирование доступно в PRO.</p><button class="btn" id="goPro">Купить PRO</button></div>
+<div class="sty" id="cPrev" data-st="neon"><div class="pv"><h4 id="cOut">ТОП ДОНАТЫ</h4><div><span>1. Ерлан</span><b>10 000 ₸</b></div><div><span>2. Данияр</span><b>5 000 ₸</b></div><div><span>3. Айгерим</span><b>1 500 ₸</b></div></div></div></div></div>
+
+<div class="panel" id="p-wid"><p style="color:var(--mu);margin-top:0">Так виджеты выглядят в эфире. Ссылки для TikTok LIVE Studio, OBS, Streamlabs и Лапс открываются в PRO. Стиль выбирайте в разделе «Мой стиль».</p><div id="wList"></div></div>
+
+<div class="panel" id="p-tar"><div class="price" style="max-width:none">
+<div class="plan"><h3>FREE</h3><div class="p">0 ₸</div><ul><li>Кабинет и статистика донатов</li><li>Превью всех виджетов</li><li>4 стиля: выбор и просмотр</li><li class="no">Ссылки на виджеты для стрима</li><li class="no">Свои цвета, названия и гифки</li></ul><span class="badge">Текущий тариф</span></div>
+<div class="plan pro"><span class="hot">Выбор стримеров</span><h3 class="neon">PRO</h3><div class="p">3 000 ₸ <small>/ месяц</small></div><ul><li>Всё из FREE</li><li>Все виджеты со ссылками: алерты, музыка, гифки, голосовые, уровни, медиа-очередь, топ</li><li>Свои цены на заказы</li><li>Свои цвета и название «ТОП ДОНАТЫ»</li><li>Свои гифки</li><li>Приоритетная поддержка</li></ul><ol style="color:var(--mu);padding-left:20px;margin:0 0 14px"><li>Напишите в Telegram @RQaz_Donate</li><li>Отправьте чек об оплате и ваш ID</li><li>Мы подключим PRO по вашему ID</li></ol><p style="margin:0 0 6px">Ваш ID: <b id="proId">—</b></p><p class="lock" id="proState" style="margin:0 0 14px"></p><a class="btn" id="buyPro" href="https://t.me/RQaz_Donate" target="_blank" rel="noopener">Купить PRO в Telegram</a></div></div></div>
+<p style="color:var(--mu);font-size:12px;margin-top:20px">Разработчики: RONIN &amp; QSEZIIM</p>
+</main></div></section>
+
+<section class="view" id="v-guide">
+<header class="nav"><a class="brand" href="#home"><span class="logo" aria-hidden="true"><svg viewBox="0 0 40 40"><rect x="1.5" y="1.5" width="37" height="37" rx="11" fill="#12081f" stroke="url(#lg)" stroke-width="2"/><text x="20" y="26" text-anchor="middle" font-family="Unbounded,sans-serif" font-weight="800" font-size="16" letter-spacing="-1" fill="url(#lg)">RQ</text><circle cx="33" cy="7" r="2.6" fill="#b6ff3b"/></svg></span>RQAZ-DONATE</a><a class="btn ghost" href="#cabinet">В кабинет</a></header>
+<div class="guide"><h1 style="font-size:clamp(24px,4vw,38px);margin-bottom:28px">Инструкция по <span class="neon">подключению</span></h1>
+<div class="g"><div class="n">1</div><div><h3>Связь с телефоном</h3><ol><li>Откройте на ПК приложение «Связь с телефоном» (Phone Link).</li><li>Синхронизируйте смартфон. Убедитесь, что уведомления Kaspi приходят в Windows.</li><li><b>Важно:</b> не закрывайте приложение.</li></ol></div></div>
+<div class="g"><div class="n">2</div><div><h3>Режим захвата</h3><p style="color:var(--mu);margin:6px 0">Правый клик по иконке RQAZ-DONATE в трее → «Режим связи».</p><ul><li><b>Свёрнутый режим</b> — через push-уведомления Windows. Окно «Связь с телефоном» должно быть свёрнуто («_»).</li><li><b>Открытый режим</b> — самый надёжный. Программа видит текст в окне. Окно должно быть развёрнуто (можно перекрыть другими окнами).</li></ul></div></div>
+<div class="g"><div class="n">3</div><div><h3>Вход по ID</h3><ol><li>Запустите программу.</li><li>Введите ваш ID из профиля на сайте.</li><li>Нажмите «Войти».</li></ol><p style="margin:10px 0 0"><a class="btn" href="#login-reg">Получить ID (регистрация)</a></p></div></div>
+<div class="g"><div class="n">4</div><div><h3>Фильтр уведомлений</h3><p style="color:var(--mu);margin:6px 0">Параметры Windows → Система → Уведомления. Оставьте включёнными только:</p><ul><li>Связь с телефоном</li><li>TikTok LIVE Studio / OBS / Streamlabs / Лапс</li><li>Kaspi.kz и RQAZ-DONATE</li></ul></div></div>
+<div class="g"><div class="n">5</div><div><h3>Виджеты в стрим</h3><ol><li>В кабинете выберите стиль и откройте «Все виджеты».</li><li>Нажмите «Копировать» у нужного виджета.</li><li>В TikTok LIVE Studio, OBS, Streamlabs или Лапс добавьте источник Browser (ссылка) и вставьте ссылку.</li><li>Нажмите ОК.</li></ol></div></div>
+<div class="g"><div class="n">6</div><div><h3>Как зритель заказывает музыку</h3><ol><li>Переводит на Kaspi сумму заказа, например 300 ₸.</li><li>В комментарии к переводу вставляет ссылку на музыку из YouTube.</li><li>Трек попадает в медиа-очередь и играет в эфире.</li></ol><p style="color:var(--mu);margin:8px 0 0">Цены заказов (100, 300, 500 ₸ или свои) стример задаёт в кабинете. Гифки покупаются так же — от 100 до 500 ₸.</p></div></div>
+<div class="g"><div class="n">?</div><div><h3>Нужна помощь?</h3><p style="color:var(--mu);margin:6px 0">Напишите в Telegram <b>@RQaz_Donate_pom</b>.</p><a class="btn cy" href="https://t.me/RQaz_Donate_pom" target="_blank" rel="noopener">Открыть помощь</a></div></div><div class="crit"><h3>Критически важно</h3><p><b>1. Приложение «Связь с телефоном».</b></p><p>Не закрывайте его — в любом режиме связь оборвётся. В «Свёрнутом» режиме сворачивайте на «_», в «Открытом» оставляйте окно развёрнутым.</p><p><b>2. Облачная синхронизация.</b></p><p>Программа сама считает суммы и передаёт их в облако сайта. Виджеты всегда показывают актуальные данные без задержек и ошибок.</p></div></div>
+<footer><span><b>RQAZ-DONATE</b> © 2026</span><span>Разработчики: <b>RONIN</b> &amp; <b>QSEZIIM</b></span></footer></section>
+<section class="view" id="v-admin"><div class="auth"><div class="box" style="max-width:520px">
+<a class="brand" href="#home"><span class="logo" aria-hidden="true"><svg viewBox="0 0 40 40"><rect x="1.5" y="1.5" width="37" height="37" rx="11" fill="#12081f" stroke="url(#lg)" stroke-width="2"/><text x="20" y="26" text-anchor="middle" font-family="Unbounded,sans-serif" font-weight="800" font-size="16" letter-spacing="-1" fill="url(#lg)">RQ</text><circle cx="33" cy="7" r="2.6" fill="#b6ff3b"/></svg></span>RQAZ-DONATE · админ</a>
+<div id="aGate"><label for="aCode">Код доступа</label><input id="aCode" type="password" autocomplete="off"><div class="err" id="aErr" role="alert"></div><button class="btn" id="aGo" style="width:100%;justify-content:center">Войти</button></div>
+<div id="aBox" hidden><h3 style="margin:18px 0 6px;font-size:16px">Подключить PRO по ID</h3><p style="color:var(--mu);margin:0 0 8px">ID стримера из его сообщения в Telegram, вместе с чеком.</p>
+<label for="aId">ID стримера</label><input id="aId" inputmode="numeric" placeholder="123456">
+<label for="aDays">Срок</label><select id="aDays" style="width:100%;background:var(--bg);color:var(--tx);border:1px solid var(--line);border-radius:12px;padding:12px;font:inherit"><option value="30">30 дней</option><option value="90">90 дней</option><option value="365">365 дней</option></select>
+<button class="btn" id="aOn" style="width:100%;justify-content:center;margin-top:14px">Включить PRO</button>
+<h3 style="margin:24px 0 4px;font-size:16px">Подключённые</h3><div class="list" id="aList"></div>
+<p class="lock" style="margin-top:14px">Это макет: список хранится только в памяти страницы. В рабочей версии проверка кода и список PRO должны жить на сервере.</p></div>
+</div></div></section>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const API_URL=location.origin+'/api';
+const S={user:null,id:null,password:null,donations:[],prog:false,pro:false,mode:'login',style:'neon',title:'ТОП ДОНАТЫ',prices:[100,300,500]};
+const REG={};function isPro(){const t=REG[S.id];return S.pro||(!!t&&t>Date.now())}
+const fmt=n=>n.toLocaleString('ru-RU').replace(/\u00a0/g,' ')+' ₸';
+const esc=t=>t.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function toast(t){const e=$('#toast');e.textContent=t;e.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.remove('on'),2400)}
+async function apiCall(endpoint,method='GET',body=null){
+const opts={method,headers:{'Content-Type':'application/json'}};
+if(body)opts.body=JSON.stringify(body);
+try{const res=await fetch(API_URL+endpoint,opts);return await res.json()}catch(e){console.error('API error:',e);return null}}
+const ST=[['neon','Неон-ночь'],['arcade','Аркада'],['sakura','Сакура'],['ice','Лёд']];
+const stHTML=(cls)=>ST.map(([k,n])=>`<button class="sbtn ${cls&&S.style===k?'on':''}" data-k="${k}"><div class="sty" data-st="${k}"><div class="pv"><h4>${cls?esc(S.title):'ТОП ДОНАТЫ'}</h4><div><span>1. Ерлан</span><b>10 000 ₸</b></div><div><span>2. Данияр</span><b>5 000 ₸</b></div></div></div><p>${n}</p></button>`).join('');
+$('#hStyles').innerHTML=stHTML(false);
+$('#mq').innerHTML=Array(4).fill('<span>TikTok LIVE Studio</span><span>OBS</span><span>Streamlabs</span><span>Лапс</span><span>Kaspi</span><span>Phone Link</span>').join('');
+$('#tt').oninput=e=>$('#ttOut').textContent=e.target.value||'ТОП ДОНАТЫ';
+const anchors=['features','music','styles','connect','price'];
+function route(){let h=(location.hash||'#home').slice(1);
+ if(anchors.includes(h)){$$('.view').forEach(v=>v.classList.toggle('on',v.id==='v-home'));document.getElementById(h).scrollIntoView();return}
+ if(h==='login-reg'){setMode('reg');h='login'}
+ if(h==='cabinet'&&!S.user)h='login';if(!$('#v-'+h))h='home';
+ $$('.view').forEach(v=>v.classList.toggle('on',v.id==='v-'+h));
+ if(h==='cabinet')render();window.scrollTo(0,0);$('#side').classList.remove('open')}
+addEventListener('hashchange',route);
+const demo=[['🎙 Голосовой донат','Айгерим',1500,'Привет из Алматы!'],['🎵 Заказ музыки','Данияр',300,'youtube.com/watch…'],['🖼 Гифка','Мадина',200,'🎉 Праздник'],['⭐ Новый уровень','Ерлан',10000,'Уровень 5 — Легенда']];
+let di=0,queue=['🎵 Данияр · трек · 300 ₸','🖼 Мадина · гифка · 200 ₸'];
+function drawQ(){$('#qList').innerHTML=queue.slice(-3).map((x,i)=>`<div><span>${i+1}. ${x}</span></div>`).join('')}
+drawQ();
+setInterval(()=>{if(!$('#v-home').classList.contains('on'))return;const[k,n,s,m]=demo[di++%4];
+ $('#alKind').textContent=k;$('#alSum').textContent=fmt(s);$('#alMsg').textContent=n+': '+m;$('#al').classList.add('show');
+ if(di%2===0){queue.push(k.slice(0,2)+' '+n+' · '+fmt(s));queue=queue.slice(-3);drawQ()}
+ setTimeout(()=>$('#al').classList.remove('show'),2800)},4300);
+function setMode(m){S.mode=m;$('#tL').classList.toggle('on',m==='login');$('#tR').classList.toggle('on',m==='reg');$('#nameWrap').hidden=m==='login';$('#idWrap').hidden=true;$('#emailWrap').hidden=false;$('#fBtn').textContent=m==='login'?'Войти':'Создать аккаунт';$('#fErr').textContent=''}
+$('#tL').onclick=()=>setMode('login');$('#tR').onclick=()=>setMode('reg');
+$('#authForm').onsubmit=async e=>{e.preventDefault();const em=$('#fe').value.trim(),pw=$('#fp').value,nm=$('#fn').value.trim();
+ if(S.mode==='login'){
+ if(!/^\S+@\S+\.\S+$/.test(em))return $('#fErr').textContent='Введите корректную почту, например you@mail.kz';
+ if(pw.length<6)return $('#fErr').textContent='Пароль минимум 6 символов';
+ $('#fErr').textContent='Загрузка...';
+ const res=await apiCall('/login','POST',{email:em,password:pw});
+ if(res&&res.success){S.id=res.userId;S.user=res.username;S.password=pw;S.pro=res.isPro;S.tok=res.widgetToken;location.hash='#cabinet';toast('Добро пожаловать, '+S.user)}
+ else $('#fErr').textContent=res?.error||'Неверный email или пароль';
+ }else{
+ if(!/^\S+@\S+\.\S+$/.test(em))return $('#fErr').textContent='Введите корректную почту, например you@mail.kz';
+ if(pw.length<6)return $('#fErr').textContent='Пароль должен быть не короче 6 символов';
+ if(nm.length<2)return $('#fErr').textContent='Введите никнейм от 2 символов';
+ $('#fErr').textContent='Загрузка...';
+ const res=await apiCall('/register','POST',{username:nm,email:em,password:pw});
+ if(res&&res.success){S.id=res.userId;S.user=res.username;S.password=pw;S.pro=res.isPro;S.tok=res.widgetToken;location.hash='#cabinet';toast('Добро пожаловать, '+S.user)}
+ else $('#fErr').textContent=res?.error||'Ошибка регистрации';
+ }};
+$('#logout').onclick=()=>{S.user=null};
+const T={ov:'Обзор',style:'Мой стиль',wid:'Все виджеты',tar:'Тариф PRO'};
+function panel(p,w){$$('.panel').forEach(x=>x.classList.toggle('on',x.id==='p-'+p));$$('[data-p]').forEach(a=>a.classList.toggle('on',a.dataset.p===p&&!w));
+ $$('[data-w]').forEach(a=>a.classList.toggle('on',a.dataset.w===w));$('#pTitle').textContent=w?'Виджеты':T[p];$('#side').classList.remove('open');
+ if(p==='wid')drawW(w);if(p==='style')drawStyle()}
+$$('[data-p]').forEach(a=>a.onclick=()=>panel(a.dataset.p));$$('[data-w]').forEach(a=>a.onclick=()=>panel('wid',a.dataset.w));
+$('#goPro').onclick=()=>panel('tar');
+
+function drawStyle(){$('#cStyles').innerHTML=stHTML(true);$$('#cStyles .sbtn').forEach(b=>b.onclick=()=>{S.style=b.dataset.k;drawStyle();toast('Стиль: '+ST.find(x=>x[0]===S.style)[1])});
+ $('#cPrev').dataset.st=S.style;$('#cOut').textContent=S.title;const i=$('#cTitle');i.value=S.title;i.disabled=!S.pro;$('#lockNote').hidden=S.pro;$('#goPro').hidden=S.pro}
+$('#cTitle').oninput=e=>{if(!S.pro)return;S.title=e.target.value||'ТОП ДОНАТЫ';$('#cOut').textContent=S.title}
+const W=[['alerts','🔔','Донат-алерты','Всплывающий алерт с суммой и сообщением зрителя.'],['music','🎵','Музыка по заказу','Зритель переводит сумму на Kaspi и вставляет в комментарий ссылку на YouTube.'],['gifs','🖼','Гифки','Готовые гифки от 100 до 500 ₸. Свои гифки — в PRO.'],['voice','🎙','Голосовые донаты','Озвученное сообщение зрителя звучит в эфире.'],['queue','📺','Медиа-очередь','Музыка, гифки и голоса идут в эфир по порядку.'],['top','🏆','Топ донатов','Лучшие зрители с никнеймами. Название меняется в PRO.'],['levels','⭐','Уровни зрителей','Уровень растёт вместе с суммой донатов.']];
+const PV={
+alerts:()=>['🔔 Донат-алерт',[['Айгерим','1 500 ₸'],['«Привет из Алматы!»','']]],
+music:()=>['🎵 Заказ музыки',[['Данияр · youtube.com/watch…','300 ₸'],['Мадина · youtube.com/watch…','100 ₸']]],
+gifs:()=>['🖼 Гифки',[['🔥 Огонь','100 ₸'],['🚀 Ракета','500 ₸']]],
+voice:()=>['🎙 Голосовой донат',[['Айгерим ▶ 0:07','500 ₸'],['«Спасибо за стрим!»','']]],
+queue:()=>['📺 Медиа-очередь',[['1. 🎵 Данияр','300 ₸'],['2. 🖼 Мадина','200 ₸'],['3. 🎙 Ерлан','500 ₸']]],
+top:()=>[S.title,[['1. Ерлан','10 000 ₸'],['2. Данияр','5 000 ₸'],['3. Айгерим','1 500 ₸']]],
+levels:()=>['⭐ Уровни зрителей',[['Ерлан · Легенда','ур. 5'],['Данияр · Мастер','ур. 3'],['Мадина · Новичок','ур. 1']]]};
+function drawW(hl){if(!S.tok)S.tok='demo';
+ const mask=k=>`${location.origin}/w/••••••••/${k}`,full=k=>`${location.origin}/w/${S.tok}/${k}`;
+ $('#wList').innerHTML=W.map(([k,i,n,d])=>{
+  const [t,rows]=PV[k]();
+  const pv=`<div class="sty" data-st="${S.style}" style="margin:12px 0"><div class="pv"><h4>${esc(t)}</h4>${rows.map(r=>`<div><span>${r[0]}</span><b>${r[1]}</b></div>`).join('')}</div></div>`;
+  const extra=k==='music'?`<div class="pr"><span>Цены заказа, ₸:</span>${S.prices.map((p,j)=>`<input type="number" min="50" step="50" value="${p}" data-pi="${j}" aria-label="Цена ${j+1}" ${S.pro?'':'disabled'}>`).join('')}</div>`:'';
+  const link=S.pro?`<div class="copy"><input readonly value="${mask(k)}" data-k="${k}" aria-label="Ссылка"><button class="btn ghost" data-sh="${k}">Показать</button><button class="btn cy" data-c="${k}">Копировать</button></div>`
+   :`<div class="copy" style="align-items:center;flex-wrap:wrap"><span class="lock" style="flex:1">🔒 Ссылка для стрима откроется в PRO</span><button class="btn" data-go="1">Купить PRO</button></div>`;
+  return `<div class="card wcard ${hl===k?'hl':''}" id="w-${k}"><h3>${i} ${n} <span class="badge pro">PRO</span></h3><p style="color:var(--mu);margin:0">${d}</p>${pv}${extra}${link}</div>`}).join('');
+ $$('[data-pi]').forEach(i=>i.oninput=()=>S.prices[i.dataset.pi]=+i.value||100);
+ $$('[data-go]').forEach(b=>b.onclick=()=>panel('tar'));
+ $$('[data-sh]').forEach(b=>b.onclick=()=>{const i=$(`input[data-k="${b.dataset.sh}"]`),h=b.textContent==='Показать';i.value=h?full(b.dataset.sh):mask(b.dataset.sh);b.textContent=h?'Скрыть':'Показать'});
+ $$('[data-c]').forEach(b=>b.onclick=()=>{const v=full(b.dataset.c),i=$(`input[data-k="${b.dataset.c}"]`),o=i.value;i.value=v;i.select();try{navigator.clipboard.writeText(v).catch(()=>document.execCommand('copy'))}catch(e){try{document.execCommand('copy')}catch(_){}}i.value=o;toast('Ссылка скопирована. Вставьте её в Browser-источник')});
+ const el=hl&&document.getElementById('w-'+hl);if(el)el.scrollIntoView({block:'center'})}
+function render(){S.pro=isPro();$('#proId').textContent=S.id;$('#proState').textContent=S.pro?'PRO активен до '+new Date(REG[S.id]).toLocaleDateString('ru-RU'):'После оплаты PRO подключится по вашему ID, а кабинет обновится.';$('#buyPro').hidden=S.pro;$('#buyPro').href='https://t.me/RQaz_Donate?text='+encodeURIComponent('Хочу PRO. Мой ID: '+S.id+'. Чек прикрепляю.');$('#meName').textContent=S.user;$('#ava').textContent=S.user[0].toUpperCase();$('#meId').textContent=S.id;
+ const b=$('#meBadge');b.textContent=S.pro?'PRO':'FREE';b.classList.toggle('pro',S.pro);
+ const d=S.donations,sum=d.reduce((a,x)=>a+x.s,0);['#sToday','#sWeek','#sMonth'].forEach(k=>$(k).textContent=fmt(sum));$('#sCnt').textContent=d.length;
+ const st=$('#status');st.textContent=S.prog?'● Программа активна':'● Программа не активна';st.classList.toggle('ok',S.prog);
+ const cur=!S.prog?0:!d.length?2:3;$$('#steps .step').forEach((e,i)=>{e.className='step'+(i<cur?' done':i===cur?' cur':'');e.querySelector('em').textContent=i<cur?'✓':i+1});
+ $('#last').innerHTML=d.length?d.slice(-5).reverse().map(x=>`<div><span>${x.k} ${x.n}</span><b>${fmt(x.s)}</b></div>`).join(''):'<div class="empty">Пока пусто. Запустите программу и нажмите «Тестовый донат».</div>';
+ const m={};d.forEach(x=>m[x.n]=(m[x.n]||0)+x.s);const t=Object.entries(m).sort((a,b)=>b[1]-a[1]).slice(0,5);
+ $('#top').innerHTML=t.length?t.map(([n,s],i)=>`<div><span>${i+1}. ${n}</span><b>${fmt(s)}</b></div>`).join(''):'<div class="empty">Пока нет данных</div>';
+ let acc=0;const pts=Array.from({length:8},(_,i)=>{acc=d.filter(x=>x.h<=i*3).reduce((a,x)=>a+x.s,0);return acc});
+ const mx=Math.max(...pts,1000),Wd=600,H=190,p=20,xy=pts.map((v,i)=>[p+i*(Wd-2*p)/7,H-p-(v/mx)*(H-2*p)]),ln=xy.map((q,i)=>(i?'L':'M')+q[0]+' '+q[1]).join('');
+ $('#chart').innerHTML=[0,1,2,3].map(i=>`<line x1="${p}" x2="${Wd-p}" y1="${p+i*(H-2*p)/3}" y2="${p+i*(H-2*p)/3}" stroke="var(--line)"/>`).join('')+`<path d="${ln}L${Wd-p} ${H-p}L${p} ${H-p}Z" fill="var(--pink)" opacity=".15"/><path d="${ln}" fill="none" stroke="var(--cy)" stroke-width="3" stroke-linejoin="round" style="filter:drop-shadow(0 0 5px var(--cy))"/>`+xy.map(q=>`<circle cx="${q[0]}" cy="${q[1]}" r="4" fill="var(--pink)"/>`).join('')}
+$('#dl').onclick=()=>{toast('Соберите RQAZ-DONATE.exe файлом build_windows.bat из комплекта MVP')};
+$('#testBtn').onclick=()=>{if(!S.prog){toast('Сначала скачайте и запустите программу');return}
+ const n=['Айгерим','Данияр','Мадина','Ерлан'][Math.floor(Math.random()*4)],o=[['🎵',S.prices[0]],['🎵',S.prices[1]],['🖼',200],['🎙',500],['💬',1000]][Math.floor(Math.random()*5)];
+ S.donations.push({n,s:o[1],k:o[0],h:new Date().getHours()});render();toast(o[0]+' '+n+' · '+fmt(o[1]))};
+function refresh(){if(!S.user)return;render();if($('#p-wid').classList.contains('on'))drawW();if($('#p-style').classList.contains('on'))drawStyle()}
+$('#menuBtn').onclick=()=>$('#side').classList.toggle('open');
+$('#aGo').onclick=()=>{$('#aErr').textContent='Админ-панель MVP отключена. Управление PRO должно выполняться на сервере.'};
+$('#aCode').onkeydown=e=>{if(e.key==='Enter')$('#aGo').click()};
+function aDraw(){const e=Object.entries(REG).filter(([,t])=>t>Date.now());$('#aList').innerHTML=e.length?e.map(([id,t])=>`<div><span>ID ${id} · до ${new Date(t).toLocaleDateString('ru-RU')}</span><button class="btn ghost" data-off="${id}">Снять</button></div>`).join(''):'<div class="empty">Пока нет подключённых PRO</div>';$$('[data-off]').forEach(b=>b.onclick=()=>{delete REG[b.dataset.off];aDraw();refresh();toast('PRO снят')})}
+$('#aOn').onclick=()=>{const id=$('#aId').value.trim();if(!/^\d{4,12}$/.test(id))return toast('Введите ID: только цифры');REG[id]=Math.max(REG[id]||0,Date.now())+(+$('#aDays').value)*864e5;aDraw();refresh();toast('PRO включён для ID '+id)};
+route();
+</script></body></html>
